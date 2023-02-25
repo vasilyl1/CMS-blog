@@ -1,7 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Painting extends Model {}
+class Comment extends Model {}
 
 Comment.init(
   {
@@ -20,6 +20,7 @@ Comment.init(
       references: {
         model: 'post',
         key: 'id',
+        unique: false
       },
     },
     user_id: {
@@ -27,6 +28,7 @@ Comment.init(
       references: {
         model: 'user',
         key: 'id',
+        unique: false
       },
     },
   },
