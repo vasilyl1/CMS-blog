@@ -9,16 +9,14 @@ router.get('/', async (req, res) => {
     const dbPostData = await Post.findAll({
       include: [
         {
-          model: Post,
-          attributes: ['filename', 'description'],
+          model: Comment,
         },
       ],
     });
-
     const posts = dbPostData.map((post) =>
       post.get({ plain: true })
     );
-
+console.log(posts);
     res.render('homepage', {
       posts,
       loggedIn: req.session.loggedIn,
@@ -37,14 +35,6 @@ router.get('/post/:id', withAuth, async (req, res) => {
       include: [
         {
           model: Comment,
-          attributes: [
-            'id',
-            'title',
-            'artist',
-            'exhibition_date',
-            'filename',
-            'description',
-          ],
         },
       ],
     });
@@ -63,7 +53,7 @@ router.get('/comment/:id', withAuth, async (req, res) => {
   try {
     const dbCommentData = await Comment.findByPk(req.params.id);
 
-    const comment = dbPaintingData.get({ plain: true });
+    const comment = dbCommentData.get({ plain: true });
 
     res.render('comment', { comment, loggedIn: req.session.loggedIn });
   } catch (err) {
