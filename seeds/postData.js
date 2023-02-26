@@ -17,7 +17,7 @@ const postdata = [
     name: 'Post 3 header',
     body: 'Post 3 body',
     date: 'June 21, 2021 17:00:00',
-    user_id: 1,
+    user_id: 2,
   },
   
 ];
