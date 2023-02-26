@@ -1,7 +1,13 @@
 <section class="card">
   <a href="/post/{{id}}">
     <header>{{name}}</header>
-    <p>{{body}}</p>
-    </a>
-  
+  </a>
+  <p>{{body}}</p>
+  {{#each comments as |comment|}}
+  <a href="/comment/{{id}}">
+    <header>{{body}}</header>
+  </a>
+  {{/each}}
+
+
 </section>
