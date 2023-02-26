@@ -8,6 +8,11 @@
     --error: rgb(228, 46, 1);
     --border-radius: 0.3rem;
   }
+
+  .widthfc {
+    width: fit-content;
+    align-self: center;
+  }
   .row {
     margin-left: 0px;
     margin-right: 0px;

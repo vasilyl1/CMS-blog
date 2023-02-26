@@ -1,10 +1,13 @@
 <section class="card">
-  <header >{{post.name}} Posted by {{post.user.username}} on {{format_date post.date}}</header>
-  
-   <p> {{post.body}}</p>
+  <header>{{post.name}} Posted by {{post.user.username}} on {{format_date post.date}}</header>
 
-  </section>
+  <p> {{post.body}}</p>
 
-    {{#each post.comments as |comment|}}
-    {{> comment-details}}
-    {{/each}}
+</section>
+{{#if loggedIn}}
+<button id="comment_post" class="btn btn-primary widthfc" type="button">comment</button>
+<script src="/js/comment.js"></script>
+{{/if}}
+{{#each post.comments as |comment|}}
+{{> comment-details}}
+{{/each}}
