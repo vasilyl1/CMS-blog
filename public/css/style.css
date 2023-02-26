@@ -8,7 +8,11 @@
     --error: rgb(228, 46, 1);
     --border-radius: 0.3rem;
   }
-  
+  .post{
+    display: flex;
+    flex-direction: column;
+    flex-basis: 3000px;
+  }
   body {
     font-family: Arial;
     margin: 0;
@@ -105,10 +109,9 @@
     font-weight: bold;
   }
   
-  /* CARDS */
+  /* POSTS */
   .card {
     margin: 20px;
-    flex: 0 1 300px;
     border: 7px double var(--dark);
     border-radius: 10px;
     background-color: var(--light);
