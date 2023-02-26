@@ -7,5 +7,8 @@ module.exports = {
         new Date(date).getFullYear()
       }`;
     },
+    format_line: (line) => {// cuts the string for preview
+      return line.slice(0,150);
+    }
   };
   
