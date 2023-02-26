@@ -2,6 +2,41 @@ const router = require('express').Router();
 const bcrypt = require('bcrypt');
 const { User } = require('../../models');
 
+// CREATE new post
+router.post('/post', withAuth, async (req, res) => {
+  try {
+    const dbPostData = await Post.create(req.params.id, {
+      name: req.body.name,
+      body: req.body.body,
+      date: req.body.date,
+      user_id: req.session.user_id,
+    });
+    const post = dbPostData.get({ plain: true });
+    res.render('post', { post, loggedIn: req.session.loggedIn });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+// CREATE new comment with param referencing post id
+router.post('/comment/:postid', withAuth, async (req, res) => {
+  try {
+    const dbCommentData = await Comment.create(req.params.id, {
+      body: req.body.body,
+      date: req.body.date,
+      post_id: req.param.postid,
+      user_id: req.session.user_id,
+    });
+
+    const comment = dbCommentData.get({ plain: true });
+    res.render('comment', { comment, loggedIn: req.session.loggedIn });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
 // CREATE new user
 router.post('/', async (req, res) => {
   try {
@@ -22,12 +57,9 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Login
+// LOGIN
 router.post('/login', async (req, res) => {
   try {
-    //const validEm = await dbUserData.checkEmail(req.body.email);
-    //const hashEm = await bcrypt.hash(req.body.email,10);
-
     const dbUserData = await User.findAll();
     let match = false;
     for (let i = 0; (i < dbUserData.length) && (!match); i++) {
@@ -44,7 +76,8 @@ router.post('/login', async (req, res) => {
           return;
         } else { // e-mail and password matched
           await req.session.save(() => {
-            req.session.loggedIn = true;
+            req.session.loggedIn = true; // flag that user is authorized
+            req.session.user_id = dbUserData[i].id; // user id from the DB for data creation
 
             res
               .status(200)
@@ -72,7 +105,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Logout
+// LOGOUT
 router.post('/logout', (req, res) => {
   if (req.session.loggedIn) {
     req.session.destroy(() => {

@@ -31,8 +31,7 @@ router.get('/', async (req, res) => {
 });
 
 // GET one post
-// Use the custom middleware before allowing the user to access the post
-router.get('/post/:id', withAuth, async (req, res) => {
+router.get('/post/:id', async (req, res) => {
   try {
     const dbPostData = await Post.findByPk(req.params.id, {
       include: [
@@ -45,7 +44,6 @@ router.get('/post/:id', withAuth, async (req, res) => {
       ],
     });
     const post = dbPostData.get({ plain: true });
-    console.log(post);
     res.render('post', { post, loggedIn: req.session.loggedIn });
   } catch (err) {
     console.log(err);
@@ -54,8 +52,7 @@ router.get('/post/:id', withAuth, async (req, res) => {
 });
 
 // GET one comment
-// Use the custom middleware before allowing the user to access 
-router.get('/comment/:id', withAuth, async (req, res) => {
+router.get('/comment/:id', async (req, res) => {
   try {
     const dbCommentData = await Comment.findByPk(req.params.id, {
       include: [
@@ -73,6 +70,7 @@ router.get('/comment/:id', withAuth, async (req, res) => {
   }
 });
 
+// authenticate the user
 router.get('/login', (req, res) => {
   if (req.session.loggedIn) {
     res.redirect('/');
