@@ -1,6 +1,6 @@
 <section class="card">
   <a href="/post/{{id}}">
-    <header>{{name}}</header>
+    <header>{{name}} Posted by {{user.username}} on {{date}}</header>
   </a>
   <p>{{body}}</p>
   {{#each comments as |comment|}}

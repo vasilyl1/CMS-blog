@@ -9,9 +9,6 @@ class User extends Model {
   checkEmail(loginEm) {
     return bcrypt.compareSync(loginEm, this.email);
   }
-  checkUserName(loginUn) {
-    return bcrypt.compareSync(loginUn, this.username);
-  }
 }
 
 User.init(
@@ -47,7 +44,6 @@ User.init(
       async beforeCreate(newUserData) {
         newUserData.password = await bcrypt.hash(newUserData.password, 10);
         newUserData.email = await bcrypt.hash(newUserData.email, 10);
-        newUserData.username = await bcrypt.hash(newUserData.username, 10);
         return newUserData;
       },
     },

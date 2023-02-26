@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Post, Comment } = require('../models');
+const { Post, Comment, User } = require('../models');
 // Import the custom middleware
 const withAuth = require('../utils/auth');
 
@@ -11,11 +11,15 @@ router.get('/', async (req, res) => {
         {
           model: Comment,
         },
+        {
+          model: User,
+        }
       ],
     });
     const posts = dbPostData.map((post) =>
       post.get({ plain: true })
     );
+    console.log(posts);
     res.render('homepage', {
       posts,
       loggedIn: req.session.loggedIn,
@@ -35,10 +39,13 @@ router.get('/post/:id', withAuth, async (req, res) => {
         {
           model: Comment,
         },
+        {
+          model: User,
+        },
       ],
     });
-
     const post = dbPostData.get({ plain: true });
+    console.log(post);
     res.render('post', { post, loggedIn: req.session.loggedIn });
   } catch (err) {
     console.log(err);
@@ -50,10 +57,15 @@ router.get('/post/:id', withAuth, async (req, res) => {
 // Use the custom middleware before allowing the user to access 
 router.get('/comment/:id', withAuth, async (req, res) => {
   try {
-    const dbCommentData = await Comment.findByPk(req.params.id);
+    const dbCommentData = await Comment.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+        },
+      ],
+    });
 
     const comment = dbCommentData.get({ plain: true });
-
     res.render('comment', { comment, loggedIn: req.session.loggedIn });
   } catch (err) {
     console.log(err);

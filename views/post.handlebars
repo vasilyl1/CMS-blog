@@ -1,8 +1,10 @@
-<section class="container">
-  <h3 class="post-name">{{post.name}}</h3>
-  <section class="flex-row justify-center">
+<section class="card">
+  <header >{{post.name}} Posted by {{post.user.username}}</header>
+  
+   <p> {{post.body}}</p>
+
+  </section>
+
     {{#each post.comments as |comment|}}
     {{> comment-details}}
     {{/each}}
-  </section>
-</section>

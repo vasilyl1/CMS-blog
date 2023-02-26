@@ -97,7 +97,6 @@
   }
   
   .painting {
-    width: 50%;
     background-color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     margin-bottom: 25px;
@@ -139,6 +138,11 @@
     background-color: var(--tertiary);
     padding: 0.625rem;
     border-radius: calc(0.18rem - 1px) calc(0.18rem - 1px) 0 0;
+  }
+
+  .card a:hover, .card header:hover {
+    color: var(--secondary);
+    background-color: var(--dark);
   }
   
   .card-body {
