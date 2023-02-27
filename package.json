@@ -8,11 +8,13 @@
       "start": "node server.js",
       "seed": "node seeds/index.js"
     },
-    "author": "",
-    "license": "ISC",
+    "engines": {"node": "16.19.0"},
+    "keywords": ["example", "heroku"],
+    "author": "vasilyl1",
+    "license": "MIT",
     "dependancies": { 
-      "bcrypt": "^5.0.0",
       "express": "^4.17.1",
+      "bcrypt": "^5.0.0",
       "connect-session-sequelize": "^7.0.4",
       "dotenv": "^8.2.0",
       "express-handlebars": "^5.2.0",
