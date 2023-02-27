@@ -36,5 +36,5 @@ app.use(routes);
 
 sequelize.sync({ force: false }).then(() => {
   console.log(`MySQL DB server is up`);
-  app.listen(process.env.PORT || PORT, () => console.log(`Express server now listening to port: ${PORT}`));
+  app.listen(PORT, () => console.log(`Express server now listening to port: ${PORT}`));
 });
