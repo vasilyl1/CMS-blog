@@ -4,15 +4,17 @@
   <p> {{post.body}}</p>
 
 </section>
-{{#if loggedIn}}
-<button id="comment_post" class="btn btn-primary widthfc" type="button">Comment</button>
-<script src="/js/comment.js"></script>
-{{/if}}
-{{#if editPost}}
-<button id="edit_post" class="btn btn-primary widthfc" type="button">Edit</button>
-<button id="delete_post" class="btn btn-primary widthfc" type="button">Delete</button>
-<script src="/js/editpost.js"></script>
-{{/if}}
+<section class="buttons">
+  {{#if loggedIn}}
+  <button id="comment_post" class="btn btn-primary widthfc" type="button">Comment</button>
+  <script src="/js/comment.js"></script>
+  {{/if}}
+  {{#if editPost}}
+  <button id="edit_post" class="btn btn-primary widthfc" type="button">Edit</button>
+  <button id="delete_post" class="btn btn-primary widthfc" type="button">Delete</button>
+  <script src="/js/editpost.js"></script>
+  {{/if}}
+</section>
 {{#each post.comments as |comment|}}
 {{> comment-details}}
 {{/each}}

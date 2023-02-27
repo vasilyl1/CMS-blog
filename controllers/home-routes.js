@@ -92,7 +92,8 @@ router.get('/comment/:id', async (req, res) => {
     });
 
     const comment = dbCommentData.get({ plain: true });
-    res.render('comment', { comment, loggedIn: req.session.loggedIn });
+    const editComment = (req.session.user_id == dbCommentData.user_id); // check if the comment belongs to auth user
+    res.render('comment', { comment, loggedIn: req.session.loggedIn, editComment: editComment });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -141,6 +142,32 @@ router.get('/deletepost/:id', withAuth, async (req, res) => {
     const post = dbPostData.get({ plain: true });
     // form to get the comment content to be rendered here
     await res.render('input3', { post, loggedIn: req.session.loggedIn });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+// edit comment
+router.get('/editcomment/:id', withAuth, async (req, res) => {
+  try {
+    const dbPostData = await Comment.findByPk(req.params.id);
+    const post = dbPostData.get({ plain: true });
+    // form to get the comment content to be rendered here
+    await res.render('input4', {post,loggedIn: req.session.loggedIn });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+// delete comment
+router.get('/deletecomment/:id', withAuth, async (req, res) => {
+  try {
+    const dbPostData = await Comment.findByPk(req.params.id);
+    const post = dbPostData.get({ plain: true });
+    // form to get the comment content to be rendered here
+    await res.render('input5', { post, loggedIn: req.session.loggedIn });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);

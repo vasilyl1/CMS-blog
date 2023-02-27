@@ -102,13 +102,31 @@ router.post('/comment/:id', withAuth, async (req, res) => {
 // UPDATE comment
 router.put('/comment/:id', withAuth, async (req, res) => {
   try {
-    const dbPostData = await Comment.update(req.body, {
+    let dbPostData = await Comment.update(req.body, {
       where: {
         id: req.params.id,
       }
     });
-    const comment = dbPostData.get({ plain: true });
-    res.render('comment', { comment, loggedIn: req.session.loggedIn });
+    dbPostData = await Post.findAll({
+      include: [
+        {
+          model: Comment,
+        },
+        {
+          model: User,
+        },
+      ],
+      where: {
+        user_id: req.session.user_id,
+      },
+    });
+    const posts = dbPostData.map((post) =>
+      post.get({ plain: true })
+    );
+    res.render('dashboard', {
+      posts,
+      loggedIn: req.session.loggedIn,
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -119,19 +137,31 @@ router.put('/comment/:id', withAuth, async (req, res) => {
 router.delete('/comment/:id', withAuth, async (req, res) => {
   try {
     const curPost = req.body.post_id;
-    let dbPostData = await Comment.destroy(req.body, {
+    let dbPostData = await Comment.destroy({
       where: {
         id: req.params.id,
       }
     });
-    dbPostData = await Post.findByPk(curPost, {
+    dbPostData = await Post.findAll({
       include: [
-        {model: Comment,},
-        {model: User},
-      ]
+        {
+          model: Comment,
+        },
+        {
+          model: User,
+        },
+      ],
+      where: {
+        user_id: req.session.user_id,
+      },
     });
-    const post = dbPostData.get({ plain: true });
-    res.render('post', { post, loggedIn: req.session.loggedIn });
+    const posts = dbPostData.map((post) =>
+      post.get({ plain: true })
+    );
+    res.render('dashboard', {
+      posts,
+      loggedIn: req.session.loggedIn,
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
