@@ -110,12 +110,14 @@ router.get('/login', (req, res) => {
 
 // add comment for the post id
 router.get('/addcomment/:id',withAuth, (req,res) => {
-  
   // form to get the comment content to be rendered here
-
   res.render('input',{hdr:"New Comment", loggedIn: req.session.loggedIn});
+});
 
-  
+// add new post request
+router.get('/addpost',withAuth, (req,res) => {
+  // form to get the comment content to be rendered here
+  res.render('input1',{hdr:"New Post", loggedIn: req.session.loggedIn});
 });
 
 module.exports = router;
