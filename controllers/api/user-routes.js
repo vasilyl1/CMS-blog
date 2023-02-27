@@ -104,7 +104,7 @@ router.delete('/comment/:id', withAuth, async (req, res) => {
 });
 
 // CREATE new user
-router.post('/', async (req, res) => {
+router.post('/', withAuth, async (req, res) => {
   try {
     const dbUserData = await User.create({
       username: req.body.username,
