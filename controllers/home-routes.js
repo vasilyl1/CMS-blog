@@ -42,7 +42,7 @@ router.get('/dashboard', withAuth, async (req, res) => {
         },
       ],
       where: {
-        user_id : req.session.user_id,
+        user_id: req.session.user_id,
       },
     });
     const posts = dbPostData.map((post) =>
@@ -72,7 +72,8 @@ router.get('/post/:id', async (req, res) => {
       ],
     });
     const post = dbPostData.get({ plain: true });
-    res.render('post', { post, loggedIn: req.session.loggedIn });
+    const editPost = (req.session.user_id == dbPostData.user_id); // check if the post belongs to auth user
+    res.render('post', { post, loggedIn: req.session.loggedIn, editPost: editPost });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -109,15 +110,41 @@ router.get('/login', (req, res) => {
 });
 
 // add comment for the post id
-router.get('/addcomment/:id',withAuth, (req,res) => {
+router.get('/addcomment/:id', withAuth, (req, res) => {
   // form to get the comment content to be rendered here
-  res.render('input',{hdr:"New Comment", loggedIn: req.session.loggedIn});
+  res.render('input', { hdr: "New Comment", loggedIn: req.session.loggedIn });
 });
 
 // add new post request
-router.get('/addpost',withAuth, (req,res) => {
+router.get('/addpost', withAuth, (req, res) => {
   // form to get the comment content to be rendered here
-  res.render('input1',{hdr:"New Post", loggedIn: req.session.loggedIn});
+  res.render('input1', { hdr: "New Post", loggedIn: req.session.loggedIn });
+});
+
+// edit post request
+router.get('/editpost/:id', withAuth, async (req, res) => {
+  try {
+    const dbPostData = await Post.findByPk(req.params.id);
+    const post = dbPostData.get({ plain: true });
+    // form to get the comment content to be rendered here
+    await res.render('input2', {post,loggedIn: req.session.loggedIn });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+// delete post request
+router.get('/deletepost/:id', withAuth, async (req, res) => {
+  try {
+    const dbPostData = await Post.findByPk(req.params.id);
+    const post = dbPostData.get({ plain: true });
+    // form to get the comment content to be rendered here
+    await res.render('input3', { post, loggedIn: req.session.loggedIn });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
 });
 
 module.exports = router;
