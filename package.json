@@ -8,8 +8,6 @@
       "start": "node server.js",
       "seed": "node seeds/index.js"
     },
-    "engines": {"node": "16.19.0"},
-    "keywords": ["example", "heroku"],
     "author": "vasilyl1",
     "license": "MIT",
     "dependancies": { 
