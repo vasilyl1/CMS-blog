@@ -169,7 +169,7 @@ router.delete('/comment/:id', withAuth, async (req, res) => {
 });
 
 // CREATE new user
-router.post('/', withAuth, async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const dbUserData = await User.create({
       username: req.body.username,
@@ -179,8 +179,12 @@ router.post('/', withAuth, async (req, res) => {
 
     req.session.save(() => {
       req.session.loggedIn = true;
+      req.session.user_id = dbUserData.id; // user id from the DB for data creation
 
-      res.status(200).json(dbUserData);
+      res
+        .status(200)
+        .json({ user: dbUserData, message: 'You are now logged in!' });
+
     });
   } catch (err) {
     console.log(err);
